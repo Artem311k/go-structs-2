@@ -20,19 +20,19 @@ func GetStringFromInput(displayText string) string {
 }
 
 func GetTitleFromInput() string {
-	title := GetStringFromInput("Enter note title: ")
+	title := GetStringFromInput("Enter title: ")
 	if !ValidateTitle(title) {
 		fmt.Println("Too large title, try again...")
-		title = GetStringFromInput("Enter note title: ")
+		title = GetStringFromInput("Enter title: ")
 	}
 	return title
 }
 
 func GetContentFromInpit() string {
-	content := GetStringFromInput("Enter note content: ")
+	content := GetStringFromInput("Enter content: ")
 	if !ValidateContent(content) {
 		fmt.Println("Too large content title, try again...")
-		content = GetStringFromInput("Enter note content: ")
+		content = GetStringFromInput("Enter content: ")
 	}
 	return content
 }

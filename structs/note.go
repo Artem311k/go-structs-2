@@ -11,10 +11,10 @@ import (
 )
 
 type Note struct {
-	Id        string
-	Title     string
-	Content   string
-	CreatedAt string
+	Id        string `json:"id"`
+	Title     string `json:"title"`
+	Content   string `json:"content"`
+	CreatedAt string `json:"createdAt"`
 }
 
 func NewNoteFromInput() Note {
@@ -35,12 +35,12 @@ func (note *Note) PrintNote() {
 }
 
 func (note *Note) SaveNote() {
-	fileInteractions.CreateDirectory()
+	fileInteractions.CreateDirectory("note")
 	content, err := json.Marshal(note)
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = os.WriteFile(fileInteractions.GetNoteNameNumberWithPath(), content, 0644)
+	err = os.WriteFile(fileInteractions.GetNameNumberWithPath("note"), content, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}

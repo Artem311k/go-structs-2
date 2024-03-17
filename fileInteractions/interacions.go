@@ -7,11 +7,14 @@ import (
 	"kuzmin.com/structs2/utils"
 )
 
-func CreateDirectory() {
+func CreateDirectory(pattern string) {
+
+	resolveDir(&pattern)
+
 	cwd, _ := os.Getwd()
 
-	if _, err := os.Stat(cwd + "/" + utils.NOTES_DIR_NAME); os.IsNotExist(err) {
-		err := os.Mkdir(utils.NOTES_DIR_NAME, os.ModePerm)
+	if _, err := os.Stat(cwd + "/" + pattern); os.IsNotExist(err) {
+		err := os.Mkdir(pattern, os.ModePerm)
 		if err != nil {
 			fmt.Println(err)
 			panic(err)
@@ -20,28 +23,39 @@ func CreateDirectory() {
 	}
 }
 
-func GetNoteNameNumberWithPath() string {
+func GetNameNumberWithPath(pattern string) string {
 
 	counter := 1
 
-	fileName := fmt.Sprintf("note%d.json", counter)
+	fileName := fmt.Sprintf(pattern+"%d.json", counter)
 
 	cwd, _ := os.Getwd()
 
-	filePath := buildFilePath(cwd, fileName)
+	filePath := buildFilePath(cwd, fileName, pattern)
 
 	_, err := os.Stat(filePath)
 
 	for err == nil {
 		counter++
-		fileName = fmt.Sprintf("note%d.json", counter)
-		filePath = buildFilePath(cwd, fileName)
+		fileName = fmt.Sprintf(pattern+"%d.json", counter)
+		filePath = buildFilePath(cwd, fileName, pattern)
 		_, err = os.Stat(filePath)
 	}
 
 	return filePath
 }
 
-func buildFilePath(cwd string, fileName string) string {
-	return fmt.Sprintf("%s/%s/%s", cwd, utils.NOTES_DIR_NAME, fileName)
+func buildFilePath(cwd, fileName, pattern string) string {
+	resolveDir(&pattern)
+	return fmt.Sprintf("%s/%s/%s", cwd, pattern, fileName)
+}
+
+func resolveDir(pattern *string) {
+	if *pattern == "note" {
+		*pattern = utils.NOTES_DIR_NAME
+	} else if *pattern == "todo" {
+		*pattern = utils.TODO_DIR_NAME
+	} else {
+		*pattern = utils.UNKNOWN_DIR_NAME
+	}
 }
