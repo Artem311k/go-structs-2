@@ -1,0 +1,5 @@
+{
+    "NOTES_DIR_NAME": "notes",
+    "MAX_TITLE_LENGTH": 100,
+    "MAX_CONTENT_LENGTH": 1000
+}
