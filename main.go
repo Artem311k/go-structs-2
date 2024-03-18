@@ -1,15 +1,17 @@
 package main
 
-import "kuzmin.com/structs2/structs"
+import (
+	"kuzmin.com/structs2/fileInteractions"
+	"kuzmin.com/structs2/structs"
+)
 
 func main() {
 
-	// newNote := structs.NewNoteFromInput()
+	newNote := structs.NewNoteFromInput()
 
-	// newNote.SaveNote()
+	fileInteractions.Save(newNote)
 
 	todo := structs.NewToDoFromInput()
 
-	todo.SaveToDo()
-
+	fileInteractions.Save(todo)
 }

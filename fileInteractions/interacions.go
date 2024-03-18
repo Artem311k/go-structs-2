@@ -1,7 +1,9 @@
 package fileInteractions
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 
 	"kuzmin.com/structs2/utils"
@@ -51,11 +53,24 @@ func buildFilePath(cwd, fileName, pattern string) string {
 }
 
 func resolveDir(pattern *string) {
-	if *pattern == "note" {
+	if *pattern == "Note" {
 		*pattern = utils.NOTES_DIR_NAME
-	} else if *pattern == "todo" {
+	} else if *pattern == "ToDo" {
 		*pattern = utils.TODO_DIR_NAME
 	} else {
 		*pattern = utils.UNKNOWN_DIR_NAME
+	}
+}
+
+func Save(data any) {
+	typeNme := utils.GetType(data)
+	CreateDirectory(typeNme)
+	content, err := json.Marshal(data)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = os.WriteFile(GetNameNumberWithPath(typeNme), content, 0644)
+	if err != nil {
+		log.Fatal(err)
 	}
 }

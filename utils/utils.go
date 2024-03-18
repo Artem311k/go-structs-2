@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"reflect"
 	"time"
 
 	"github.com/google/uuid"
@@ -43,4 +44,12 @@ func GenerateUUID() string {
 
 func GetCreatedAt() string {
 	return time.Now().Format("02.01.2006 15:04")
+}
+
+func GetType(myvar interface{}) string {
+	if t := reflect.TypeOf(myvar); t.Kind() == reflect.Ptr {
+		return t.Elem().Name()
+	} else {
+		return t.Name()
+	}
 }

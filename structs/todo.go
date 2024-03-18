@@ -1,45 +1,27 @@
 package structs
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
-	"os"
 
-	"kuzmin.com/structs2/fileInteractions"
 	"kuzmin.com/structs2/utils"
 )
 
 type ToDo struct {
-	Id        string `json:"id"`
-	Content   string `json:"content"`
-	CreatedAt string `json:"createdAt"`
+	UUUIDElement
+	Content string `json:"content"`
 }
 
 func NewToDoFromInput() ToDo {
 	return ToDo{
-		utils.GenerateUUID(),
-		utils.GetContentFromInpit(),
-		utils.GetCreatedAt(),
+		UUUIDElement: GenerateUUIDElement(),
+		Content:      utils.GetContentFromInpit(),
 	}
 }
 
 func (todo *ToDo) ToString() string {
-	return fmt.Sprintf("[%s, %s, %s", todo.Id, todo.Content, todo.CreatedAt)
+	return fmt.Sprintf("[%s, %s, %s]", todo.Id, todo.Content, todo.CreatedAt)
 }
 
-func (todo *ToDo) PrintToDo() {
+func (todo *ToDo) PrintInfo() {
 	fmt.Println(todo.ToString())
-}
-
-func (todo *ToDo) SaveToDo() {
-	fileInteractions.CreateDirectory("todo")
-	content, err := json.Marshal(todo)
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = os.WriteFile(fileInteractions.GetNameNumberWithPath("todo"), content, 0644)
-	if err != nil {
-		log.Fatal(err)
-	}
 }
